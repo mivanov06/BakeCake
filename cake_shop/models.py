@@ -110,6 +110,11 @@ class Client(models.Model):
 
 
 class Cake(models.Model):
+    CATEGORY = (
+        ('01', 'На день рождения'),
+        ('02', 'На свадьбу'),
+        ('03', 'На чаепитие'),
+    )
     title = models.CharField('название торта', max_length=200, blank=True)
     description = models.TextField(
         'описание торта',
@@ -121,6 +126,11 @@ class Cake(models.Model):
         null=True,
     )
     default = models.BooleanField('торт в ассортименте', default=False)
+    category = models.CharField(
+        max_length=2,
+        choices=CATEGORY,
+        blank=True,
+    )
     layers = models.ForeignKey(
         'Layer',
         verbose_name='слои',
@@ -173,7 +183,11 @@ class Cake(models.Model):
 
 
 class Layer(models.Model):
-    quantity = models.IntegerField(verbose_name='Количество слоев')
+    title = models.CharField(
+        verbose_name='Количество слоев',
+        max_length=32,
+        blank=True,
+    )
     price = models.DecimalField(
         max_digits=19,
         verbose_name='Цена',
@@ -181,11 +195,11 @@ class Layer(models.Model):
     )
 
     def __str__(self):
-        return f'{str(self.quantity)}'
+        return f'{str(self.title)}'
 
 
 class Shape(models.Model):
-    shape = models.CharField(verbose_name='Форма коржа', max_length=32)
+    title = models.CharField(verbose_name='Форма коржа', max_length=32)
     price = models.DecimalField(
         max_digits=19,
         verbose_name='Цена',
@@ -193,7 +207,7 @@ class Shape(models.Model):
     )
 
     def __str__(self):
-        return self.shape
+        return self.title
 
 
 class Topping(models.Model):
