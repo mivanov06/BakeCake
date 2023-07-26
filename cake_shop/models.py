@@ -146,9 +146,24 @@ class Cake(models.Model):
         verbose_name='Комментарий к торту'
     )
 
+    price = models.FloatField(blank=True, null=True, verbose_name='Цена')
+
+    def save(self):
+        if self.text:
+            price = 500
+        else:
+            price = 0
+        price += self.levels.price
+        price += self.form.price
+        price += self.topping.price
+        price += self.berries.price
+        price += self.decore.price
+        self.price = price
+        super().save()
+
     class Meta:
         verbose_name = 'Торты'
         verbose_name_plural = 'Торты'
 
     def __str__(self):
-        return str(self.id)
+        return f'{self.id}'

@@ -37,5 +37,6 @@ class AdminLevel(admin.ModelAdmin):
 
 @admin.register(Cake)
 class AdminCake(admin.ModelAdmin):
-    fields = ('levels', 'form', 'berries', 'topping', 'decore', 'text', 'comment')
+    fields = ('levels', 'form', 'berries', 'topping', 'decore', 'text', 'comment', 'price')
     list_display = ('id',)
+    readonly_fields = ('price',)
