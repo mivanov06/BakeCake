@@ -8,6 +8,7 @@ from cake_shop.models import Shape
 from cake_shop.models import Topping
 from cake_shop.models import Berry
 from cake_shop.models import Decor
+from cake_shop.image_preview import image_preview
 
 
 class OrderedCakeInline(admin.TabularInline):
@@ -17,6 +18,7 @@ class OrderedCakeInline(admin.TabularInline):
 
 @admin.register(Cake)
 class CakeAdmin(admin.ModelAdmin):
+    fields = ['title', 'picture', 'preview', 'default', 'category', 'layers', 'shape', 'toppings', 'berries', 'decor']
     search_fields = [
         'title',
         'category',
@@ -27,6 +29,10 @@ class CakeAdmin(admin.ModelAdmin):
         'category',
         'default',
     ]
+    readonly_fields = ['preview']
+
+    def preview(self, obj):
+        return image_preview(obj)
 
 
 @admin.register(Layer)
