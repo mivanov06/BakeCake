@@ -54,7 +54,7 @@
 			<div class="position-fixed bottom-0 m-5 w-auto end-0">
 				<div class="d-flex">
 					<div class="cake__bg_blue rounded-pill p-3 border">
-						<img src="{% static "img/Cintercom.svg" %}" alt="">
+						<img src="{% static "img/intercom.svg" %}" alt="">
 					</div>
 				</div>
 			</div>
@@ -116,7 +116,7 @@
 				<a href="#step3" class="btn text-white rounded-pill mt-3 shadow-none cake__button cake__bg_pink">Оформить заказ</a>
 			</div>
 		</article>
-
+{{ js_data | json_script:"js_data"}}
 		{% verbatim %}
 		<article id="VueApp">
 			<section class="row pt-header" id="step3">
@@ -332,7 +332,7 @@
 								<div class="d-flex">
 									<span class="cake_pink fs_40 fw-bold me-2">Итого: {{ Cost }}₽</span>
 								</div>
-								<button type="submit" class="btn btn_hover text-white rounded-pill mt-3 px-5 shadow-none cake__button cake__bg_pink">К оплате</button>
+								<button href="/order" type="submit" class="btn btn_hover text-white rounded-pill mt-3 px-5 shadow-none cake__button cake__bg_pink">К оплате</button>
 							</div>
 						</div>
 					</div>

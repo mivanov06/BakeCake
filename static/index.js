@@ -6,6 +6,8 @@ Vue.createApp({
         ErrorMessage: VeeValidate.ErrorMessage,
     },
     data() {
+        let js_data = JSON.parse(document.getElementById('js_data').textContent);
+        console.log(js_data)
         return {
             schema1: {
                 lvls: (value) => {
@@ -98,13 +100,7 @@ Vue.createApp({
                     return ' время доставки';
                 }
             },
-            DATA: {
-                Levels: ['не выбрано', '1', '2', '3'],
-                Forms: ['не выбрано', 'Круг', 'Квадрат', 'Прямоугольник'],
-                Toppings: ['не выбрано', 'Без', 'Белый соус', 'Карамельный', 'Кленовый', 'Черничный', 'Молочный шоколад', 'Клубничный'],
-                Berries: ['нет', 'Ежевика', 'Малина', 'Голубика', 'Клубника'],
-                Decors: [ 'нет', 'Фисташки', 'Безе', 'Фундук', 'Пекан', 'Маршмеллоу', 'Марципан']
-            },
+            DATA: js_data,
             Costs: {
                 Levels: [0, 400, 750, 1100],
                 Forms: [0, 600, 400, 1000],
@@ -139,6 +135,10 @@ Vue.createApp({
     },
     computed: {
         Cost() {
+            let date_1 = new Date(2023, 6, 26, 16, 0, 0)
+            let date_2 = new Date(2023, 6, 27, 16, 0, 0)
+//            console.log(date_1.getTime())
+//            console.log(date_2.getTime()-date_1.getTime())
             let W = this.Words ? this.Costs.Words : 0
             return this.Costs.Levels[this.Levels] + this.Costs.Forms[this.Form] +
                 this.Costs.Toppings[this.Topping] + this.Costs.Berries[this.Berries] +
