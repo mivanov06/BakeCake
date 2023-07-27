@@ -7,7 +7,8 @@ Vue.createApp({
     },
     data() {
         let js_data = JSON.parse(document.getElementById('js_data').textContent);
-        console.log(js_data)
+        let js_costs = JSON.parse(document.getElementById('js_costs').textContent);
+        console.log(js_costs)
         return {
             schema1: {
                 lvls: (value) => {
@@ -101,14 +102,7 @@ Vue.createApp({
                 }
             },
             DATA: js_data,
-            Costs: {
-                Levels: [0, 400, 750, 1100],
-                Forms: [0, 600, 400, 1000],
-                Toppings: [0, 0, 200, 180, 200, 300, 350, 200],
-                Berries: [0, 400, 300, 450, 500],
-                Decors: [0, 300, 400, 350, 300, 200, 280],
-                Words: 500
-            },
+            Costs: js_costs,
             Levels: 0,
             Form: 0,
             Topping: 0,
