@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from cake_shop.models import Cake
+from cake_shop.models import Cake, Client, Order
 
 
 def index(request):
@@ -13,6 +13,18 @@ def lk(request):
 
 def lk_order(request):
     return render(request, 'lk-order.html')
+
+
+def lk_template(request):
+    client_id = 1  # TODO получать id при входе по телефону
+    client = Client.objects.get(id=client_id)  # TODO добавить взаимодействие с js
+    orders = Order.objects.filter(client=client)
+
+    context = {
+        'orders': orders,
+        'client': client,
+    }
+    return render(request, 'lk_template.html', context)
 
 
 def serialize_cakes(cakes):
