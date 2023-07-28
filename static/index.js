@@ -8,7 +8,6 @@ Vue.createApp({
     data() {
         let js_data = JSON.parse(document.getElementById('js_data').textContent);
         let js_costs = JSON.parse(document.getElementById('js_costs').textContent);
-        console.log(js_costs)
         return {
             schema1: {
                 lvls: (value) => {
@@ -129,10 +128,8 @@ Vue.createApp({
     },
     computed: {
         Cost() {
-            let date_1 = new Date(2023, 6, 26, 16, 0, 0)
-            let date_2 = new Date(2023, 6, 27, 16, 0, 0)
-//            console.log(date_1.getTime())
-//            console.log(date_2.getTime()-date_1.getTime())
+//            let date_1 = new Date(2023, 6, 26, 16, 0, 0)
+//            let date_2 = new Date(2023, 6, 27, 16, 0, 0)
             let W = this.Words ? this.Costs.Words : 0
             return this.Costs.Levels[this.Levels] + this.Costs.Forms[this.Form] +
                 this.Costs.Toppings[this.Topping] + this.Costs.Berries[this.Berries] +

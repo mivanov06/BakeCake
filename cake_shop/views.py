@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from cake_shop.models import Layer, Shape, Topping, Berry, Decor
-from decimal import Decimal
 
 
 def index(request):
