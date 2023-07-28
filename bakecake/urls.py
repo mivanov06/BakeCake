@@ -18,14 +18,15 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from cake_shop.views import index, lk, lk_order, cakes
+from cake_shop.views import index, lk, lk_order, cakes, lk_template
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
     path('lk/', lk, name='lk'),
     path('lk_order/', lk_order, name='lk_order'),
-    path('cakes/', cakes, name='cakes')
+    path('cakes/', cakes, name='cakes'),
+    path('lk_template/', lk_template, name='lk_template'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
