@@ -64,6 +64,8 @@ class Order(models.Model):
         blank=True,
     )
     order_price = models.DecimalField(
+        blank=True,
+        null=True,
         max_digits=19,
         verbose_name='Сумма заказа',
         decimal_places=2
@@ -74,7 +76,8 @@ class Order(models.Model):
     )
     delivery_date = models.DateField(
         verbose_name='время создания',
-        blank=True
+        blank=True,
+        null=True,
     )
     delivery_time = models.CharField(
         max_length=2,
@@ -94,7 +97,9 @@ class Order(models.Model):
     urgency = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{str(self.order_time)}'
+        return f'{str(self.delivery_time)}'
+
+    # TODO Добавить расчет цены
 
 
 class Client(models.Model):
@@ -106,7 +111,7 @@ class Client(models.Model):
      )
 
     def __str__(self):
-        return self.fio
+        return self.name
 
 
 class Cake(models.Model):
@@ -167,6 +172,8 @@ class Cake(models.Model):
         on_delete=models.SET_NULL,
     )
 
+    price = models.FloatField(blank=True, null=True, verbose_name='Цена')
+
     def __str__(self):
         return self.title
 
@@ -180,6 +187,20 @@ class Cake(models.Model):
         for topping in Topping.objects.filter(cakes__id=self.id):
             total += topping.price
         return total
+
+    def save(self):
+        # if self.text:
+        #     price = 500
+        # else:
+        #     price = 0
+        price = 0
+        price += self.layers.price
+        price += self.shape.price
+        price += self.toppings.price
+        price += self.berries.price
+        price += self.decor.price
+        self.price = price
+        super().save()
 
 
 class Layer(models.Model):
@@ -205,6 +226,9 @@ class Shape(models.Model):
         verbose_name='Цена',
         decimal_places=2,
     )
+
+    def __str__(self):
+        return f'{str(self.title)}'
 
 """
 # Create your models here.
