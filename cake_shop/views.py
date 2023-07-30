@@ -105,7 +105,8 @@ def serialize_cakes(cakes):
                 'shape': cake.shape,
                 'toppings': cake.toppings,
                 'berries': cake.berries,
-                'decor': cake.decor
+                'decor': cake.decor,
+                'price':cake.get_price()
             }
         )
     return serialized
