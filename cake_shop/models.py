@@ -94,19 +94,20 @@ class Order(models.Model):
     urgency = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{str(self.order_time)}'
+        return f'{str(self.delivery_time)}'
 
 
 class Client(models.Model):
     name = models.CharField('Имя', max_length=200)
-    phone = models.CharField('Телефон', max_length=12)
+    phone = models.CharField('Телефон', max_length=12, unique=True)
+    mail = models.CharField('Почта', blank=True, null=True, max_length=50)
     address = models.TextField(
         'Адрес квартиры',
         help_text='ул. Подольских курсантов д.5 кв.4'
      )
 
     def __str__(self):
-        return self.fio
+        return self.name
 
 
 class Cake(models.Model):
