@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from cake_shop.models import Layer, Shape, Topping, Berry, Decor
+from cake_shop.models import Layer, Shape, Topping, Berry, Decor, Client, Order
 
 from cake_shop.models import Cake
 
@@ -56,7 +56,36 @@ def index(request):
 
 
 def lk(request):
-    return render(request, 'lk.html')
+    client = Client.objects.filter(phone='88005553535').first()
+    mail = client.mail
+    if not mail:
+        mail = 'my@mail.ru'
+
+    orders = Order.objects.filter(client=client)
+    serialize_orders = []
+    for order in orders:
+        order = {
+            'id': order.id,
+            'cakes': order.cakes.all(),
+            'price': order.order_price,
+            'delivery_time': order.delivery_time
+        }
+        serialize_orders.append(order)
+
+
+
+
+    data = {
+        'js_client': {
+                "name": client.name,
+                "phone": client.phone,
+                "mail": mail,
+                "address": client.address
+        },
+        'orders': orders
+    }
+
+    return render(request, 'lk_template.html', context=data)
 
 
 def lk_order(request):

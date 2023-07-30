@@ -5,11 +5,14 @@ Vue.createApp({
         ErrorMessage: VeeValidate.ErrorMessage,
     },
     data() {
+        let js_client = JSON.parse(document.getElementById('js_client').textContent);
+        let js_orders = JSON.parse(document.getElementById('js_orders').textContent);
+
         return {
             Edit: false,
-            Name: 'Ирина',
-            Phone: '8 909 000-00-00',
-            Email: 'nyam@gmail.com',
+            Name: js_client.name,
+            Phone: js_client.phone,
+            Email: js_client.mail,
             Schema: {
                 name_format: (value) => {
                     const regex = /^[a-zA-Zа-яА-я]+$/
