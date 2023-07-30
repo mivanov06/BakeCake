@@ -94,7 +94,7 @@ class Order(models.Model):
     urgency = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{str(self.order_time)}'
+        return f'{str(self.delivery_time)}'
 
 
 class Client(models.Model):
