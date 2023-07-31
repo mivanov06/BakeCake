@@ -124,6 +124,39 @@ Vue.createApp({
         ToStep4() {
             this.Designed = true
             setTimeout(() => this.$refs.ToStep4.click(), 0);
+        },
+        submitOrder: function(){
+            console.log('start submitOrder')
+            fetch("api/order/", {
+                method: 'POST',
+                headers: {
+                    'HTTP_X_CSRFTOKEN': document.cookie.match("(^|;)\\s*" + "csrftoken" + "\\s*=\\s*([^;]+)")?.pop(),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "name": this.name,
+                    "Phone":this.Phone,
+                    "Email":this.Email,
+                    "Address":this.Address,
+                    "Dates":this.Dates,
+                    "Time":this.Time,
+                    "DelivComments":this.DelivComments,
+    
+                    "Levels":this.Levels,
+                    "Form":this.Form,
+                    "Topping":this.Topping,
+                    "Berries":this.Berries,
+                    "Decor":this.Decor,
+                    "Words":this.Words,
+                    "Comments":this.Comments,
+                    "Designed":this.password,
+                }
+            ),
+        }).then(response => {
+            this.success_msg = response['msg'];      
+        }).catch(err => {
+            this.err_msg = err.response['err'];
+        });        
         }
     },
     computed: {
@@ -135,5 +168,5 @@ Vue.createApp({
                 this.Costs.Toppings[this.Topping] + this.Costs.Berries[this.Berries] +
                 this.Costs.Decors[this.Decor] + W
         }
-    }
+    },
 }).mount('#VueApp')

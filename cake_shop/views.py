@@ -1,4 +1,7 @@
+import json
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
+
 from cake_shop.models import Layer, Shape, Topping, Berry, Decor, Client, Order
 
 from cake_shop.models import Cake
@@ -55,6 +58,15 @@ def index(request):
     return render(request, 'index.html', context=data)
 
 
+def order(request):
+    print(request)
+    if request.method == "POST":
+        data = json.loads(request.body)
+        print(data)
+
+    return redirect('index')
+
+
 def lk(request):
     client = Client.objects.filter(phone='88005553535').first()
     mail = client.mail
@@ -71,9 +83,6 @@ def lk(request):
             'delivery_time': order.delivery_time
         }
         serialize_orders.append(order)
-
-
-
 
     data = {
         'js_client': {
