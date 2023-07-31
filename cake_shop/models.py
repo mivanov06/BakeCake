@@ -105,6 +105,26 @@ class Order(models.Model):
 
         return total
 
+    def get_status(self):
+        statuses = {
+            '01': 'Оформлен',
+            '02': 'В доставке',
+            '03': 'Доставлен',
+        }
+        return statuses[self.order_status]
+
+    def get_time(self):
+        time_periods = {
+            '01': '08:00-10:00',
+            '02': '10:00-12:00',
+            '03': '12:00-14:00',
+            '04': '14:00-16:00',
+            '05': '16:00-18:00',
+            '06': '18:00-20:00',
+            '07': '20:00-22:00',
+        }
+        return time_periods[self.delivery_time]
+
     def save(self):
         self.order_price = self.get_price()
         super(Order, self).save()

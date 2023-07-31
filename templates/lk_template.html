@@ -19,6 +19,7 @@
 {{ js_client | json_script:"js_client" }}
 {{ js_orders | json_script:"js_orders"}}
 
+
 <nav class="navbar navbar-expand-xl navbar-light fixed-top bg-white py-4">
 	<div class="container">
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -156,9 +157,9 @@
 									</div>
 								{% endfor %}
 								<div class="modal-footer d-flex justify-content-between">
-									<span class="cake_blue d-flex">Статус: {{ order.order_status }}</span>
+									<span class="cake_blue d-flex">Статус: {{ order.get_status }}</span>
 									<span class="cake_blue d-flex align-items-center">Общая стоимость заказа:{{ order.order_price }}</span>
-									<span class="cake_blue d-flex">Время доставки: {{ order.delivery_time}}</span>
+									<span class="cake_blue d-flex">Время доставки: {{ order.get_time}}</span>
 								</div>
 							</div>
 						</div>
