@@ -126,14 +126,14 @@ Vue.createApp({
             setTimeout(() => this.$refs.ToStep4.click(), 0);
         },
         submitOrder: function(){
-            console.log('start submitOrder')
-            fetch("api/order/", {
-                method: 'POST',
+            axios({
+                method : "POST",
+                url:"api/order/", //django path name
                 headers: {
-                    'HTTP_X_CSRFTOKEN': document.cookie.match("(^|;)\\s*" + "csrftoken" + "\\s*=\\s*([^;]+)")?.pop(),
-                    'Content-Type': 'application/json',
+                    'X-CSRFTOKEN': document.cookie.match("(^|;)\\s*" + "csrftoken" + "\\s*=\\s*([^;]+)")?.pop(),
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
+                data : {
                     "name": this.name,
                     "Phone":this.Phone,
                     "Email":this.Email,
@@ -150,13 +150,12 @@ Vue.createApp({
                     "Words":this.Words,
                     "Comments":this.Comments,
                     "Designed":this.password,
-                }
-            ),
-        }).then(response => {
-            this.success_msg = response['msg'];      
-        }).catch(err => {
-            this.err_msg = err.response['err'];
-        });        
+                },//data
+            }).then(response => {
+                this.success_msg = response.data['msg'];      
+            }).catch(err => {
+                this.err_msg = err.response.data['err'];
+            });        
         }
     },
     computed: {

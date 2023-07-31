@@ -59,7 +59,7 @@ def index(request):
 
 
 def order(request):
-    print(request)
+    print(request.headers)
     if request.method == "POST":
         data = json.loads(request.body)
         print(data)
