@@ -62,18 +62,6 @@ def lk(request):
         mail = 'my@mail.ru'
 
     orders = Order.objects.filter(client=client)
-    serialize_orders = []
-    for order in orders:
-        order = {
-            'id': order.id,
-            'cakes': order.cakes.all(),
-            'price': order.order_price,
-            'delivery_time': order.delivery_time
-        }
-        serialize_orders.append(order)
-
-
-
 
     data = {
         'js_client': {
@@ -82,7 +70,7 @@ def lk(request):
                 "mail": mail,
                 "address": client.address
         },
-        'orders': orders
+        'orders': orders,
     }
 
     return render(request, 'lk_template.html', context=data)
