@@ -103,12 +103,28 @@ class OrderAdmin(admin.ModelAdmin):
         'order_status',
     ]
     list_display = [
+        'delivery_date',
+        'delivery_time',
         'create_time',
         'client',
         'order_status',
     ]
     inlines = [
         OrderedCakeInline,
+    ]
+
+
+@admin.register(OrderedCake)
+class OrderedCakeAdmin(admin.ModelAdmin):
+    search_fields = [
+        'order',
+        'cake',
+        'quantity',
+    ]
+    list_display = [
+        'order',
+        'cake',
+        'quantity',
     ]
 
 

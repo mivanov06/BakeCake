@@ -92,10 +92,12 @@ def lk(request, slug):
         }
 
     return render(request, 'lk_template.html', context=data)
-    
+
 
 def check_time_period(time):
-    [hours, minutes] = ":".split(time)
+    [hours, minutes] = time.split(":")
+    minutes = int(minutes)
+    hours = int(hours)
     if minutes > 30:
         minutes = 0
         hours += 1
@@ -136,10 +138,22 @@ def find_topping(topping, components):
 
 
 def find_berries(berries, components):
+    if berries == 0 or berries == "0":
+        berries_null, created = Berry.objects.get_or_create(title="Без ягод")
+        if created:
+            berries_null.price = 0
+            berries_null.save()
+        return berries_null
     return Berry.objects.filter(title=components['Berries'][int(berries)]).first()
 
 
 def find_decor(decor, components):
+    if decor == 0 or decor == "0":
+        decor_null, created = Decor.objects.get_or_create(title="Без декора")
+        if created:
+            decor_null.price = 0
+            decor_null.save()
+        return decor_null
     return Decor.objects.filter(title=components['Decors'][int(decor)]).first()
 
 
@@ -153,6 +167,7 @@ def order(request):
     if request.method == "POST":
         data = json.loads(request.body)
         print(data)
+
         client, created = Client.objects.get_or_create(phone=data['Phone'])
         if client.name != data['Name']:
             client.name = data['Name']
@@ -170,13 +185,15 @@ def order(request):
             decor=find_decor(data['Decor'], data['components']),
         )
 
+        order_price = cake.get_price() + get_input_price(data['Words'])
+
         order = Order.objects.create(
             client=client,
             comment=data['DelivComments'],
             delivery_date=data['Dates'],  # высчитать дату
-            delivery_time=data['Time'],  # выбрать период по времени
+            delivery_time=check_time_period(data['Time']),  # выбрать период по времени
             urgency=False,  # оценить срочность
-            order_price=cake.get_price() + get_input_price(data['Words']),  # вычислить цену с учетом срочности
+            order_price=order_price,  # вычислить цену с учетом срочности
         )
 
         ordered_cake = OrderedCake.objects.create(

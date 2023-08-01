@@ -78,16 +78,19 @@ class Order(models.Model):
         blank=True
     )
     delivery_time = models.CharField(
+        verbose_name='время доставки',
         max_length=2,
         choices=TIME_PERIODS,
         blank=True,
     )
     delivery_type = models.CharField(
+        verbose_name='вид доставки',
         max_length=2,
         choices=DELIVERY_TYPES,
         blank=True,
     )
     order_status = models.CharField(
+        verbose_name='статус заказа',
         max_length=2,
         choices=STATUSES,
         default='01',
@@ -95,7 +98,10 @@ class Order(models.Model):
     urgency = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{str(self.delivery_time)}'
+        delivery_date = str(self.delivery_date)
+        delivery_period = dict(self.TIME_PERIODS)[self.delivery_time]
+        order_status = dict(self.STATUSES)[self.order_status]
+        return f'{delivery_date} - {delivery_period} ({order_status})'
 
     def get_price(self):
         ordered_cakes = self.ordered_cakes.all()
@@ -204,15 +210,20 @@ class Cake(models.Model):
     )
 
     def __str__(self):
-        return self.title
+        return f'торт {self.title} ({self.pk})'
 
     def get_price(self):
         total = 0
-        total += self.layers.price
-        total += self.shape.price
-        total += self.toppings.price
-        total += self.berries.price
-        total += self.decor.price
+        if self.layers:
+            total += self.layers.price
+        if self.shape:
+            total += self.shape.price
+        if self.toppings:
+            total += self.toppings.price
+        if self.berries:
+            total += self.berries.price
+        if self.decor:
+            total += self.decor.price
         return total
 
 
