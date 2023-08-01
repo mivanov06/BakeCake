@@ -132,12 +132,6 @@ class Order(models.Model):
         }
         return time_periods[self.delivery_time]
 
-'''
-    def save(self):
-        self.order_price = self.get_price()
-        super(Order, self).save()
-'''
-
 
 class Client(models.Model):
     name = models.CharField('Имя', max_length=200)
