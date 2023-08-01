@@ -58,26 +58,14 @@ def index(request):
     return render(request, 'index.html', context=data)
 
 
-
 def lk(request, slug):
     client = Client.objects.filter(slug=slug).first()
     if client:
-
         mail = client.mail
         if not mail:
             mail = 'example@mail.ru'
 
         orders = Order.objects.filter(client=client)
-        serialize_orders = []
-        for order in orders:
-            order = {
-                'id': order.id,
-                'cakes': order.cakes.all(),
-                'price': order.order_price,
-                'delivery_time': order.delivery_time
-            }
-            serialize_orders.append(order)
-
         data = {
             'js_client': {
                     "name": client.name,
