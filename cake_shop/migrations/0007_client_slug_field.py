@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cake_shop', '0006_update_client_model'),
+        ('cake_shop', '0007_alter_order_order_price'),
     ]
 
     operations = [
