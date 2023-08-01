@@ -211,14 +211,12 @@ class Cake(models.Model):
         return self.title
 
     def get_price(self):
-        # total скорее всего 0.00 писать надо
         total = 0
         total += self.layers.price
         total += self.shape.price
-        for berry in Berry.objects.filter(cakes__id=self.id):
-            total += berry.price
-        for topping in Topping.objects.filter(cakes__id=self.id):
-            total += topping.price
+        total += self.toppings.price
+        total += self.berries.price
+        total += self.decor.price
         return total
 
 
@@ -284,4 +282,3 @@ class Decor(models.Model):
 
     def __str__(self):
         return self.title
-

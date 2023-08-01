@@ -25,9 +25,9 @@ class CakeAdmin(admin.ModelAdmin):
         'default',
     ]
     list_display = [
+        'default',
         'title',
         'category',
-        'default',
     ]
     readonly_fields = ['preview']
 
