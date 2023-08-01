@@ -212,11 +212,16 @@ class Cake(models.Model):
 
     def get_price(self):
         total = 0
-        total += self.layers.price
-        total += self.shape.price
-        total += self.toppings.price
-        total += self.berries.price
-        total += self.decor.price
+        if self.layers:
+            total += self.layers.price
+        if self.shape:
+            total += self.shape.price
+        if self.toppings:
+            total += self.toppings.price
+        if self.berries:
+            total += self.berries.price
+        if self.decor:
+            total += self.decor.price
         return total
 
 
