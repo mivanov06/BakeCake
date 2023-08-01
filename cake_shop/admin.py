@@ -103,6 +103,8 @@ class OrderAdmin(admin.ModelAdmin):
         'order_status',
     ]
     list_display = [
+        'delivery_date',
+        'delivery_time',
         'create_time',
         'client',
         'order_status',
