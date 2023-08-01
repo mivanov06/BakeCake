@@ -146,9 +146,9 @@ class Client(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self):
-        self.slug = slugify(self.phone) + slugify(self.id)
-        super(Client, self).save()
+    def get_slug(self):
+        slug = slugify(self.phone) + slugify(self.id)
+        return slug
 
 
 class Cake(models.Model):
