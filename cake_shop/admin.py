@@ -115,7 +115,8 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
     list_display = ('name', 'phone', 'address', 'mail')
-    readonly_fields = ('name', 'phone', 'address', 'mail')
+    readonly_fields = ('name', 'phone', 'address', 'mail', 'slug')
+
 
 """
 from cake_shop.models import Form, Berry, Decore, Topping, Level, Cake

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 
 class OrderedCake(models.Model):
@@ -138,9 +139,14 @@ class Client(models.Model):
         'Адрес квартиры',
         help_text='ул. Подольских курсантов д.5 кв.4'
      )
+    slug = models.SlugField(null=True, blank=True, verbose_name='slug')
 
     def __str__(self):
         return self.name
+
+    def save(self):
+        self.slug = slugify(self.phone) + slugify(self.id)
+        super(Client, self).save()
 
 
 class Cake(models.Model):

@@ -58,6 +58,37 @@ def index(request):
     return render(request, 'index.html', context=data)
 
 
+
+def lk(request, slug):
+    client = Client.objects.filter(slug=slug).first()
+    if client:
+
+        mail = client.mail
+        if not mail:
+            mail = 'example@mail.ru'
+
+        orders = Order.objects.filter(client=client)
+        serialize_orders = []
+        for order in orders:
+            order = {
+                'id': order.id,
+                'cakes': order.cakes.all(),
+                'price': order.order_price,
+                'delivery_time': order.delivery_time
+            }
+            serialize_orders.append(order)
+
+        data = {
+            'js_client': {
+                    "name": client.name,
+                    "phone": client.phone,
+                    "mail": mail,
+                    "address": client.address,
+                    "slug": client.slug,
+            },
+            'orders': orders
+        }
+
 def check_time_period(time):
     [hours, minutes] = ":".split(time)
     if minutes > 30:
@@ -153,32 +184,19 @@ def order(request):
     return redirect('index')
 
 
-def lk(request):
-    client = Client.objects.filter(phone='88005553535').first()
-    mail = client.mail
-    if not mail:
-        mail = 'my@mail.ru'
-
-    orders = Order.objects.filter(client=client)
-    serialize_orders = []
-    for order in orders:
-        order = {
-            'id': order.id,
-            'cakes': order.cakes.all(),
-            'price': order.order_price,
-            'delivery_time': order.delivery_time
+    else:
+        #  Test data
+        orders = Order.objects.all()
+        data = {
+            'js_client': {
+                    "name": 'myname',
+                    "phone": '88005553535',
+                    "mail": 'my@mail.ru',
+                    "address": 'my address',
+                    "slug": "slug",
+            },
+            'orders': orders
         }
-        serialize_orders.append(order)
-
-    data = {
-        'js_client': {
-                "name": client.name,
-                "phone": client.phone,
-                "mail": mail,
-                "address": client.address
-        },
-        'orders': orders,
-    }
 
     return render(request, 'lk_template.html', context=data)
 

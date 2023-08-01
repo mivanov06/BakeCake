@@ -23,7 +23,7 @@ from cake_shop.views import index, lk, lk_order, cakes, order
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
-    path('lk/', lk, name='lk'),
+    path('lk/<slug:slug>', lk, name='lk'),
     path('lk_order/', lk_order, name='lk_order'),
     path('cakes/', cakes, name='cakes'),
     path('api/order/', order, name='order'),
