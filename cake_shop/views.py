@@ -55,25 +55,6 @@ def index(request):
     return render(request, 'index.html', context=data)
 
 
-def lk(request):
-    client = Client.objects.filter(phone='88005553535').first()
-    mail = client.mail
-    if not mail:
-        mail = 'my@mail.ru'
-
-    orders = Order.objects.filter(client=client)
-
-    data = {
-        'js_client': {
-                "name": client.name,
-                "phone": client.phone,
-                "mail": mail,
-                "address": client.address
-        },
-        'orders': orders,
-    }
-
-
 def lk(request, slug):
     client = Client.objects.filter(slug=slug).first()
     if client:
@@ -98,7 +79,8 @@ def lk(request, slug):
                     "name": client.name,
                     "phone": client.phone,
                     "mail": mail,
-                    "address": client.address
+                    "address": client.address,
+                    "slug": client.slug,
             },
             'orders': orders
         }
@@ -111,7 +93,8 @@ def lk(request, slug):
                     "name": 'myname',
                     "phone": '88005553535',
                     "mail": 'my@mail.ru',
-                    "address": 'my address'
+                    "address": 'my address',
+                    "slug": "slug",
             },
             'orders': orders
         }
