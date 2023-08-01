@@ -4,7 +4,7 @@ from django.http import JsonResponse
 
 from cake_shop.models import Layer, Shape, Topping, Berry, Decor, Client, Order
 
-from cake_shop.models import Cake
+from cake_shop.models import Cake, OrderedCake
 
 
 def index(request):
@@ -58,11 +58,97 @@ def index(request):
     return render(request, 'index.html', context=data)
 
 
+def check_time_period(time):
+    [hours, minutes] = ":".split(time)
+    if minutes > 30:
+        minutes = 0
+        hours += 1
+    else:
+        minutes = 0
+    if hours <= 10:
+        period = '01'
+    elif hours <= 12:
+        period = '02'
+    elif hours <= 14:
+        period = '03'
+    elif hours <= 16:
+        period = '04'
+    elif hours <= 18:
+        period = '05'
+    elif hours <= 20:
+        period = '06'
+    elif hours <= 22:
+        period = '07'
+    elif hours <= 22:
+        period = '07'
+    else:
+        period = '07'
+
+    return period
+
+
+def find_layer(level, components):
+    return Layer.objects.filter(title=components['Levels'][int(level)]).first()
+
+
+def find_shape(shape, components):
+    return Shape.objects.filter(title=components['Forms'][int(shape)]).first()
+
+
+def find_topping(topping, components):
+    return Topping.objects.filter(title=components['Toppings'][int(topping)]).first()
+
+
+def find_berries(berries, components):
+    return Berry.objects.filter(title=components['Berries'][int(berries)]).first()
+
+
+def find_decor(decor, components):
+    return Decor.objects.filter(title=components['Decors'][int(decor)]).first()
+
+
+def get_input_price(input):
+    if input:
+        return 500
+    return 0
+
+
 def order(request):
-    print(request.headers)
     if request.method == "POST":
         data = json.loads(request.body)
         print(data)
+        client, created = Client.objects.get_or_create(phone=data['Phone'])
+        if client.name != data['Name']:
+            client.name = data['Name']
+        if client.mail != data['Email']:
+            client.mail = data['Email']
+        if client.address != data['Address']:
+            client.address = data['Address']
+        client.save()
+
+        cake, created = Cake.objects.get_or_create(
+            layers=find_layer(data['Levels'], data['components']),
+            shape=find_shape(data['Form'], data['components']),
+            toppings=find_topping(data['Topping'], data['components']),
+            berries=find_berries(data['Berries'], data['components']),
+            decor=find_decor(data['Decor'], data['components']),
+        )
+
+        order = Order.objects.create(
+            client=client,
+            comment=data['DelivComments'],
+            delivery_date=data['Dates'],  # высчитать дату
+            delivery_time=data['Time'],  # выбрать период по времени
+            urgency=False,  # оценить срочность
+            order_price=cake.get_price() + get_input_price(data['Words']),  # вычислить цену с учетом срочности
+        )
+
+        ordered_cake = OrderedCake.objects.create(
+            order=order,
+            cake=cake,
+            comment=data['Comments'],
+            cake_text=data['Words'],
+        )
 
     return redirect('index')
 
