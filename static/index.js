@@ -124,16 +124,52 @@ Vue.createApp({
         ToStep4() {
             this.Designed = true
             setTimeout(() => this.$refs.ToStep4.click(), 0);
+        },
+        submitOrder: function(){
+            axios({
+                method : "POST",
+                url:"api/order/", //django path name
+                headers: {
+                    'X-CSRFTOKEN': document.cookie.match("(^|;)\\s*" + "csrftoken" + "\\s*=\\s*([^;]+)")?.pop(),
+                    'Content-Type': 'application/json'
+                },
+                data : {
+                    "Name":this.Name,
+                    "Phone":this.Phone,
+                    "Email":this.Email,
+                    "Address":this.Address,
+                    "Dates":this.Dates,
+                    "Time":this.Time,
+                    "DelivComments":this.DelivComments,
+    
+                    "Levels":this.Levels,
+                    "Form":this.Form,
+                    "Topping":this.Topping,
+                    "Berries":this.Berries,
+                    "Decor":this.Decor,
+                    "Words":this.Words,
+                    "Comments":this.Comments,
+                    "Designed":this.Designed,
+
+                    "components": this.DATA,
+                    "prices": this.Costs,
+                },//data
+            }).then(response => {
+                this.success_msg = response.data['msg'];      
+            }).catch(err => {
+                this.err_msg = err.response.data['err'];
+            });        
         }
     },
     computed: {
         Cost() {
 //            let date_1 = new Date(2023, 6, 26, 16, 0, 0)
 //            let date_2 = new Date(2023, 6, 27, 16, 0, 0)
+//            console.log(this)
             let W = this.Words ? this.Costs.Words : 0
             return this.Costs.Levels[this.Levels] + this.Costs.Forms[this.Form] +
                 this.Costs.Toppings[this.Topping] + this.Costs.Berries[this.Berries] +
                 this.Costs.Decors[this.Decor] + W
         }
-    }
+    },
 }).mount('#VueApp')
