@@ -134,7 +134,7 @@ Vue.createApp({
                     'Content-Type': 'application/json'
                 },
                 data : {
-                    "name": this.name,
+                    "Name":this.Name,
                     "Phone":this.Phone,
                     "Email":this.Email,
                     "Address":this.Address,
@@ -149,7 +149,10 @@ Vue.createApp({
                     "Decor":this.Decor,
                     "Words":this.Words,
                     "Comments":this.Comments,
-                    "Designed":this.password,
+                    "Designed":this.Designed,
+
+                    "components": this.DATA,
+                    "prices": this.Costs,
                 },//data
             }).then(response => {
                 this.success_msg = response.data['msg'];      
@@ -162,6 +165,7 @@ Vue.createApp({
         Cost() {
 //            let date_1 = new Date(2023, 6, 26, 16, 0, 0)
 //            let date_2 = new Date(2023, 6, 27, 16, 0, 0)
+//            console.log(this)
             let W = this.Words ? this.Costs.Words : 0
             return this.Costs.Levels[this.Levels] + this.Costs.Forms[this.Form] +
                 this.Costs.Toppings[this.Topping] + this.Costs.Berries[this.Berries] +
