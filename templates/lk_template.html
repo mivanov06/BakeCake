@@ -166,7 +166,7 @@
 								{% endfor %}
 								<div class="modal-footer d-flex justify-content-between">
 									<span class="cake_blue d-flex">Статус: {{ order.get_status }}</span>
-									<span class="cake_blue d-flex align-items-center">Общая стоимость заказа:{{ order.order_price }}</span>
+									<span class="cake_blue d-flex align-items-center">Общая стоимость заказа:{{ order.get_price }}</span>
 									<span class="cake_blue d-flex">Время доставки: {{ order.get_time}}</span>
 								</div>
 							</div>
