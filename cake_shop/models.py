@@ -145,7 +145,7 @@ class Client(models.Model):
         return self.name
 
     def save(self):
-        self.slug = slugify(self.phone)
+        self.slug = slugify(self.phone) + slugify(self.id)
         super(Client, self).save()
 
 
