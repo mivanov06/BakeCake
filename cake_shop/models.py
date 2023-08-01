@@ -74,7 +74,7 @@ class Order(models.Model):
         auto_now_add=True
     )
     delivery_date = models.DateField(
-        verbose_name='время создания',
+        verbose_name='дата доставки',
         blank=True
     )
     delivery_time = models.CharField(
