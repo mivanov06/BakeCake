@@ -112,6 +112,20 @@ class OrderAdmin(admin.ModelAdmin):
     ]
 
 
+@admin.register(OrderedCake)
+class OrderedCakeAdmin(admin.ModelAdmin):
+    search_fields = [
+        'order',
+        'cake',
+        'quantity',
+    ]
+    list_display = [
+        'order',
+        'cake',
+        'quantity',
+    ]
+
+
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
     list_display = ('name', 'phone', 'address', 'mail')
